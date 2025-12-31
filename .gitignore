@@ -1,0 +1,41 @@
+# Node
+node_modules/
+
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Runtime files
+pids
+*.pid
+*.seed
+
+# Env
+.env
+.env.local
+.env.*.local
+
+# Certificates and keys (local generated)
+certs/
+keys/
+crl/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editor/IDE
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+
+# Misc
+dist/
+build/
+coverage/
