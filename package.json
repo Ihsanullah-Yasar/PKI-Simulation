@@ -1,0 +1,35 @@
+{
+  "name": "pki-simulation",
+  "version": "1.0.0",
+  "description": "A complete PKI (Public Key Infrastructure) simulation in Node.js",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "cli": "node src/cli.js",
+    "init": "node src/scripts/initialize-pki.js",
+    "demo": "node src/demo/demo-server.js",
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Ihsanullah-Yasar/PKI-Simulation.git"
+  },
+  "keywords": ["pki", "cryptography", "certificates", "security", "education"],
+  "author": "Ahsanullah",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.18.2",
+    "node-forge": "^1.3.1",
+    "commander": "^11.1.0",
+    "chalk": "^4.1.2",
+    "inquirer": "^8.2.6",
+    "figlet": "^1.6.0"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0"
+  },
+  "bugs": {
+    "url": "https://github.com/Ihsanullah-Yasar/PKI-Simulation/issues"
+  },
+  "homepage": "https://github.com/Ihsanullah-Yasar/PKI-Simulation#readme"
+}
