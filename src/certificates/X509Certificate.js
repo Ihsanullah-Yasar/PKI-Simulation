@@ -384,16 +384,22 @@ class X509Certificate {
    * Add Subject Key Identifier extension
    */
   addSubjectKeyIdentifier(cert) {
-    const ski = forge.pki.getPublicKeyFingerprint(cert.publicKey, {
-      type: "SubjectKeyIdentifier",
-    });
+    try {
+      // Generate Subject Key Identifier using SHA-1 hash of public key
+      const md = forge.md.sha1.create();
+      const publicKeyInfo = forge.pki.getPublicKeyInfo(cert.publicKey);
+      md.update(forge.asn1.toDer(publicKeyInfo).getBytes());
+      const ski = md.digest().getBytes();
 
-    // Find and update existing extension
-    const extIndex = cert.extensions.findIndex(
-      (ext) => ext.name === "subjectKeyIdentifier"
-    );
-    if (extIndex !== -1) {
-      cert.extensions[extIndex].subjectKeyIdentifier = ski;
+      // Find and update existing extension
+      const extIndex = cert.extensions.findIndex(
+        (ext) => ext.name === "subjectKeyIdentifier"
+      );
+      if (extIndex !== -1) {
+        cert.extensions[extIndex].subjectKeyIdentifier = ski;
+      }
+    } catch (error) {
+      console.warn(`Failed to add Subject Key Identifier: ${error.message}`);
     }
   }
 
@@ -401,16 +407,22 @@ class X509Certificate {
    * Add Authority Key Identifier extension
    */
   addAuthorityKeyIdentifier(cert, issuerCert) {
-    const aki = forge.pki.getPublicKeyFingerprint(issuerCert.publicKey, {
-      type: "AuthorityKeyIdentifier",
-    });
+    try {
+      // Generate Authority Key Identifier using SHA-1 hash of issuer's public key
+      const md = forge.md.sha1.create();
+      const publicKeyInfo = forge.pki.getPublicKeyInfo(issuerCert.publicKey);
+      md.update(forge.asn1.toDer(publicKeyInfo).getBytes());
+      const aki = md.digest().getBytes();
 
-    // Find and update existing extension
-    const extIndex = cert.extensions.findIndex(
-      (ext) => ext.name === "authorityKeyIdentifier"
-    );
-    if (extIndex !== -1) {
-      cert.extensions[extIndex].authorityKeyIdentifier = aki;
+      // Find and update existing extension
+      const extIndex = cert.extensions.findIndex(
+        (ext) => ext.name === "authorityKeyIdentifier"
+      );
+      if (extIndex !== -1) {
+        cert.extensions[extIndex].authorityKeyIdentifier = aki;
+      }
+    } catch (error) {
+      console.warn(`Failed to add Authority Key Identifier: ${error.message}`);
     }
   }
 
