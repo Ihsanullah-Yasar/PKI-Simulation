@@ -187,11 +187,18 @@ class CertificateAuthority {
 
     // 4. Initialize CRL
     console.log("📜 Step 4: Initializing Certificate Revocation Lists");
-    await this.crlManager.initialize(rootCA.certificate, rootKeys.privateKey);
-
-    this.saveFile("root", "root-ca.crl", this.crlManager.getRootCRLPem());
-
-    console.log("✅ CRL initialized\n");
+    try {
+      await this.crlManager.initialize(rootCA.certificate, rootKeys.privateKey);
+      const crlPem = this.crlManager.getRootCRLPem();
+      if (crlPem) {
+        this.saveFile("root", "root-ca.crl", crlPem);
+        console.log("✅ CRL initialized\n");
+      } else {
+        console.log("⚠️  CRL initialization skipped (not fully supported)\n");
+      }
+    } catch (error) {
+      console.log(`⚠️  CRL initialization skipped: ${error.message}\n`);
+    }
 
     return {
       rootCA,
